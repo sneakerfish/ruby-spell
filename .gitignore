@@ -25,3 +25,13 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# -*- mode: gitignore; -*-
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
