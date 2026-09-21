@@ -1,7 +1,9 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
+# Loads a small sample dictionary so the app works out of the box.
 #
-# Examples:
+#   bin/rails db:seed
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# For a real dictionary (~370,000 English words) see `bin/rails dictionary:load`
+# in lib/tasks/dictionary.rake.
+sample = Rails.root.join("db/dictionary/sample_words.txt")
+added = Word.import(File.readlines(sample, chomp: true))
+puts "Seeded #{added} words from #{sample.basename} (#{Word.count} in dictionary)."

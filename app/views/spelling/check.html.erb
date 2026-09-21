@@ -1,0 +1,64 @@
+<% content_for :title, @word.present? ? "#{@word} – Ruby Spell" : "Ruby Spell" %>
+
+<main>
+  <h1>Ruby Spell</h1>
+  <p class="intro">
+    Type a word and we'll check it against the dictionary and suggest the
+    closest matches, using <strong>trigrams</strong> to find candidates and
+    <strong>Levenshtein distance</strong> to rank them.
+  </p>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <%= form_with url: root_path, method: :get, class: "search" do |form| %>
+    <%= form.label :word, "Word", class: "visually-hidden" %>
+    <%= form.search_field :word, value: @word, placeholder: "e.g. elefant",
+          autofocus: true, required: true, maxlength: SpellingController::MAX_INPUT_LENGTH,
+          autocomplete: "off", spellcheck: false %>
+    <%= form.submit "Check spelling", name: nil %>
+  <% end %>
+
+  <% if @word.present? %>
+    <section class="results">
+      <% if @found %>
+        <p class="verdict correct"><strong><%= @word %></strong> is spelled correctly.</p>
+      <% else %>
+        <p class="verdict incorrect"><strong><%= @word %></strong> is not in the dictionary.</p>
+      <% end %>
+
+      <p class="trigrams">
+        Trigrams:
+        <% Trigrams.of(@word).each do |trigram| %>
+          <code><%= trigram %></code>
+        <% end %>
+      </p>
+
+      <% if @suggestions.any? %>
+        <table>
+          <caption>Closest dictionary words</caption>
+          <thead>
+            <tr><th scope="col">Word</th><th scope="col">Distance</th></tr>
+          </thead>
+          <tbody>
+            <% @suggestions.each do |suggestion| %>
+              <tr>
+                <td><%= link_to suggestion.spelling, root_path(word: suggestion.spelling) %></td>
+                <td><%= suggestion.distance %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <p>No similar words found.</p>
+      <% end %>
+    </section>
+  <% end %>
+
+  <footer>
+    Also available as JSON:
+    <code>/check?word=…</code>, <code>/ngrams?word=…</code>,
+    <code>/levenshtein?worda=…&amp;wordb=…</code>
+  </footer>
+</main>
