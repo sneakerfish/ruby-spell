@@ -1,15 +1,69 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+/* Plain CSS served by Propshaft -- no build step required. */
+
+:root {
+  --text: #1d1d1f;
+  --muted: #5f6368;
+  --accent: #b3261e;
+  --border: #d9d9de;
+  --background: #fafafa;
+  --good: #1e7b34;
+  --bad: #b3261e;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #ececf1;
+    --muted: #a0a4ab;
+    --accent: #ff8a80;
+    --border: #3a3a40;
+    --background: #18181b;
+    --good: #7fd98f;
+    --bad: #ff8a80;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--background);
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+h1 { color: var(--accent); margin-bottom: 0.25rem; }
+.intro, footer { color: var(--muted); }
+
+.search { display: flex; gap: 0.5rem; margin: 1.5rem 0; }
+.search input[type="search"] { flex: 1; font-size: 1.1rem; padding: 0.5rem; }
+.search input[type="submit"] { font-size: 1rem; padding: 0.5rem 1rem; }
+
+.alert, .verdict.incorrect { color: var(--bad); }
+.verdict.correct { color: var(--good); }
+
+code {
+  padding: 0 0.25em;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+table { width: 100%; border-collapse: collapse; }
+caption { text-align: left; font-weight: bold; padding-bottom: 0.5rem; }
+th, td { text-align: left; padding: 0.25rem 0.5rem; border-bottom: 1px solid var(--border); }
+td:last-child, th:last-child { text-align: right; }
+
+footer { margin-top: 2rem; font-size: 0.9rem; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
